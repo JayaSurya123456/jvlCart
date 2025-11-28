@@ -1,4 +1,5 @@
 const sendToken=(User,statusCode,res)=>{
+    // I written function in UserModel file it return token value 
     const token=User.getJwtToken()
 
     // setting cookie
