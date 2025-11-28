@@ -17,6 +17,8 @@ exports.getProducts= async(req,res,next)=>{
 
 // http:localhost:8000/api/v1/product/new
 exports.newproduct=async(req,res,next)=>{
+// assign logged user id to user:objId in products collection  
+req.body.user=req.user.id
 const product=await Product.create(req.body)
 res.status(201).json({
     success:true,

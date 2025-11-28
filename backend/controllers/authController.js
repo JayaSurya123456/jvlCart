@@ -1,4 +1,4 @@
-const catchAsyncError=require('../middlewares/catchAsyncError')
+ const catchAsyncError=require('../middlewares/catchAsyncError')
 const User=require('../models/userModel')
 const ErrorHandler=require('../utils/errorHandler')
 const sendToken=require('../utils/jwt')
@@ -43,7 +43,18 @@ exports.loginUser=catchAsyncError(async(req,res,next)=>{
       return next(new ErrorHandler('Invalid Email & Password',401))
     }
 
-  
     sendToken(user,201,res)
-
 })
+
+ exports.logoutUser=(req,res,next)=>{
+    //just setting cookie value as null if logout route hit
+   res.cookie('token',null,{
+        expires:new Date(Date.now()),
+        httpOnly:true
+    })
+    .status(200)
+    .json({
+        success:'true',
+        message:'logged out'
+    })
+ }
