@@ -5,9 +5,13 @@ const { getProducts, newproduct, getSingleProduct, updateProduct, deleteProduct 
 const router=express.Router()
 
 router.route('/products').get(isAuthenticatedUser,getProducts)
-router.route('/product/new').post(isAuthenticatedUser,authorizeRoles('admin'),newproduct)
-router.route('/product/:id').get(getSingleProduct)
-.put(updateProduct)
-.delete(deleteProduct)
+router.route('/product/:id')
+                            .get(getSingleProduct)
+                            .put(updateProduct)
+                            .delete(deleteProduct)
+
+//admin route
+router.route('admin/product/new').post(isAuthenticatedUser,authorizeRoles('admin'),newproduct)
+
 
 module.exports=router

@@ -13,6 +13,7 @@ exports.isAuthenticatedUser=catchAsyncError(async(req,res,next)=>{
     //getting original Id
     const decoded =  jwt.verify(token,process.env.JWT_SECRET)
     //Without req.user, we don’t know who is logged in.
+    //find original id and set all user in req after successfull login
     req.user=await User.findById(decoded.id)
     next()
 })
