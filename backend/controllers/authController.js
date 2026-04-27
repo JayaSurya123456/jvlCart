@@ -5,13 +5,21 @@ const ErrorHandler=require('../utils/errorHandler')
 const sendToken=require('../utils/jwt')
 
 exports.registerUser=catchAsyncError(async(req,res,next)=>{
-   const {name,email,password,avatar}=req.body
+    //just buidquery to store in db
+    let avatar=undefined;
+    if(req.file){
+        avatar=`${req.protocol}://${req.host}/uploads/user/${req.file.filename}`
+    }
+
+   const {name,email,password}=req.body
    const user= await User.create({
         name,
         email,
         password,
         avatar
     })
+
+   
     // const token=user.getJwtToken()
     // res.status(201).json({
     //     success:true,
@@ -99,7 +107,7 @@ exports.loginUser=catchAsyncError(async(req,res,next)=>{
 //  })
 
 
-//get user profile who logged in currently
+//After login only this work 
 exports.getUserProfile=catchAsyncError(async (req,res,next)=>{
    const user= await User.findById(req.user.id)
    res.status(200).json({

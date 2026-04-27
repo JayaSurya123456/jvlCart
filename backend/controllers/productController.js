@@ -5,10 +5,18 @@ const catchAsyncError = require('../middlewares/catchAsyncError')
 const APIfeatures= require('../utils/apiFeatures')
 
 //http:localhost:8000/api/v1/products
+//this one method conatain all api features function 
 exports.getProducts= async(req,res,next)=>{
-   let resPerPage=2
+  let resPerPage=3
   const apiFeatures=new APIfeatures(Product.find(),req.query).search().filter().paginate(resPerPage)
   const products= await apiFeatures.query;
+
+  /* Just delay response using promise fo testing */
+  //await new Promise(resolve=> setTimeout(resolve,3000))
+
+  /*Return error for testing purpose */
+  //  return next(new ErrorHandler("Unable to get Data",500))
+
     res.status(200).json({
         success:true,
         count:products.length,
