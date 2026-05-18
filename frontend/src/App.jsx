@@ -8,17 +8,26 @@ import ProductDetail from '../components/product/ProductDetail'
 import ProductSearch from '../components/product/ProductSearch'
 import Login from '../components/user/Login'
 import Register from '../components/user/Register'
-import { useEffect } from 'react'
+import Profile from '../components/user/Profile'
+import {useEffect } from 'react'
 import store from './store'
 import { loadUser } from './actions/userActions'
+import { useDispatch } from 'react-redux'
+import ProtectedRoute from '../components/route/ProtectedRoute'
+import UpdatePassword from '../components/user/UpdatePassword'
 
 
-function App(){
+function App(){  
+  const dispatch=useDispatch()
+
   useEffect(()=>{
-  store.dispatch(loadUser)
-},[loadUser])
+  dispatch(loadUser)
+},[])
+
+
 
   return <>
+  
    <Router>
     <Header/>
     <div className='container container-fluid'>
@@ -30,7 +39,8 @@ function App(){
       <Route path='/products' element={<ProductSearch />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
-
+      <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+<Route path='/myprofile/update/password' element={<UpdatePassword/>}/>
 
     </Routes>
     <Footer/>

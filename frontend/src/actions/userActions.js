@@ -1,16 +1,26 @@
 
 import axios from 'axios'
-import {loginRequest,loginFail,loginSuccess, clearError, registerRequest, registerSuccess, registerFail, loadUserRequest, loadUserSuccess, loadUserFail, logoutSuccess, logoutFail} from '../slices/authSlice'
+import {loginRequest,loginFail,loginSuccess,
+     clearError, registerRequest, registerSuccess,
+      registerFail, loadUserRequest, loadUserSuccess, 
+      loadUserFail,
+       logoutSuccess, logoutFail,
+       changePasswordRequest,
+       changePasswordSuccess,
+       changePasswordFail
+    } from '../slices/authSlice'
 
 export const login=(email,password)=>async (dispatch) =>{
     try {
         dispatch(loginRequest())
        const {data}= await axios.post('/api/v1/login',{email,password})
        dispatch(loginSuccess(data))
+       dispatch(loadUser)
     } catch (error) {
         dispatch(loginFail(error.response.data.message))
     }
 }
+
 
 export const register=(userData)=>async (dispatch) =>{
 
@@ -32,28 +42,41 @@ export const register=(userData)=>async (dispatch) =>{
 
 
 //getting  user data after login
-export const loadUser= async (dispatch) =>{
+
+export const loadUser =  async (dispatch) => {
 
     try {
         dispatch(loadUserRequest())
-         
-       const {data}= await axios.get('/api/v1/myprofile')
+        const { data }  = await axios.get(`/api/v1/myprofile`);
         dispatch(loadUserSuccess(data))
-        
     } catch (error) {
         dispatch(loadUserFail(error.response.data.message))
     }
+
 }
 
-export const logout= async (dispatch) =>{
 
+export const logout= async (dispatch) =>{
     try {
-         
+
        await axios.get('/api/v1/logout')
         dispatch(logoutSuccess())
         
     } catch (error) {
         dispatch(logoutFail)
+    }
+
+}
+
+
+export const changePassword=(oldPassword,password)=> async (dispatch)=>{
+    try{
+        dispatch(changePasswordRequest())
+        await axios.put('/api/v1/password/change',{oldPassword,password})
+         dispatch(changePasswordSuccess())
+    }
+    catch(error){
+        dispatch(changePasswordFail(error.response.data.message))
     }
 }
 
@@ -61,3 +84,5 @@ export const logout= async (dispatch) =>{
 export const clearAuthError =dispatch=>{
     dispatch(clearError())
 }
+
+

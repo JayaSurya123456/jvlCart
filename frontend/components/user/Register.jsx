@@ -60,7 +60,7 @@ useEffect(()=>{
     })
     return 
     }
-},[error])
+ },[error, isAuthenticated, dispatch, navigate])
     
 
 return<>

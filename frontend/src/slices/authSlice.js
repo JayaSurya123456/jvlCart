@@ -76,10 +76,11 @@ const authSlice=createSlice({
                 error:action.payload
             }
         },
+
         logoutSuccess(state,action){
             return{
                 loading:false,
-                isAuthenticated:fail,
+                isAuthenticated:false
             }
         },
         logoutFail(state,action){
@@ -88,8 +89,36 @@ const authSlice=createSlice({
                 error:action.payload
             }
         },
+        changePasswordRequest(state,action){
+            return{
+                ...state,
+                loading: true,
+                isUpdated: false
+
+            }
+        },
+        changePasswordSuccess(state,action){
+            return{
+                ...state,
+                loading: false,
+                isUpdated: true
+
+            }
+        },
+         changePasswordFail(state,action){
+            return{
+                 ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+        
+
+        
     }
+
 })
+
 
 const {actions,reducer}=authSlice
 
@@ -104,7 +133,10 @@ export const {loginRequest,
               loadUserSuccess,
               loadUserFail,
               logoutFail,
-              logoutSuccess
+              logoutSuccess,
+              changePasswordRequest,
+              changePasswordSuccess,
+              changePasswordFail
             }=actions
 
 export default reducer
