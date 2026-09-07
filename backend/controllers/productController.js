@@ -99,7 +99,8 @@ exports.createReview=catchAsyncError(async(req,res,next)=>{
     }
 
    const product=await Product.findById(productId)
-   // check user already reviewed
+
+   //Find logged user review 
    const isReviewed=product.reviews.find((review)=>{
    return review.user.toString()==req.user.id.toString()
    })
